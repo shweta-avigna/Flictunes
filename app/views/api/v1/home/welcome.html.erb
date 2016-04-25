@@ -1,0 +1,14 @@
+"Welcome to Flictunes"
+
+<%=flash[:notice] %>
+<%if current_user.present? %>
+	<%=link_to 'Upload photos',new_api_photo_path%>
+	<%=link_to "Log out",  destroy_api_user_session_path(current_user),:method => :delete%>
+	<br/>
+name: <%=current_user.name%>
+<br/>
+email: <%=current_user.email%>
+<%else%>
+	<%= link_to "Sign In", new_api_user_session_path()%>
+<%end%>
+

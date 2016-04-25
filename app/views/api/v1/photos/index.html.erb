@@ -1,0 +1,5 @@
+<%@photos.each do |photo| %>
+	<%= image_tag photo.avatar.expiring_url(10) %>
+	<%= image_tag photo.avatar.expiring_url(10,:medium) %>
+	<%= image_tag photo.avatar.expiring_url(10,:thumb) %>
+<%end%>
