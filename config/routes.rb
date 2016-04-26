@@ -1,13 +1,41 @@
 require 'api_constraints'
 Rails.application.routes.draw do
-   namespace :api,  :path => '/' do
+  constraints(:subdomain => /\b(api|devapi)\b/) do
+    namespace :api, defaults: { format: "json" }, :path => '/' do
       scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do
           root 'home#welcome'
-           devise_for :users, :controllers => { :omniauth_callbacks => "api/v1/users/omniauth_callbacks",:sessions => "api/v1/users/sessions"}
+          resources :users 
+          resources :sessions do
+            collection do
+              get :signup_form
+              post :signup
+              post :login
+            end           
+          end
+          resources :flictunes do
+              collection do
+                post :create_flictune
+              end
+              member do
+                get :meta
+                get :music
+                get :photos
+                patch :set_metadata
+                patch :set_music
+              end
+              resources :photos do
+                collection do
+                  post :add_photo
+                  post :photo_order
+                end
+
+              end
+            end
+          #devise_for :users, :controllers => { :omniauth_callbacks => "api/v1/users/omniauth_callbacks",:sessions => "api/v1/users/sessions"}
           resources :photos
       end
   end
- 
+ end
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

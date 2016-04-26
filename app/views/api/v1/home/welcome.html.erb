@@ -9,6 +9,7 @@ name: <%=current_user.name%>
 <br/>
 email: <%=current_user.email%>
 <%else%>
-	<%= link_to "Sign In", new_api_user_session_path()%>
+	<%= link_to "Sign In", new_api_session_path()%>
+	<%= link_to "Sign Up", signup_form_api_sessions_path()%>
 <%end%>
 
